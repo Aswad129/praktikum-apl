@@ -39,24 +39,24 @@ void tampilHarga(int harga, int jumlah)
     cout << "Total Harga: Rp " << harga * jumlah << endl;
 }
 
-void registerUser(User users[], int &jumlahUser)
+void registerUser(User *users, int *jumlahUser)
 {
     cout << "\n=== REGISTER ===\n";
 
     cout << "Username: ";
-    cin >> users[jumlahUser].username;
+    cin >> users[*jumlahUser].username;
 
     cout << "NIM (Password): ";
-    cin >> users[jumlahUser].nim;
+    cin >> users[*jumlahUser].nim;
 
-    users[jumlahUser].role = "pelanggan";
+    users[*jumlahUser].role = "pelanggan";
 
-    jumlahUser++;
+    (*jumlahUser)++;
 
     cout << "Registrasi berhasil!\n";
 }
 
-int loginUser(User users[], int jumlahUser)
+int loginUser(User *users, int jumlahUser)
 {
     string username, nim;
 
@@ -77,7 +77,7 @@ int loginUser(User users[], int jumlahUser)
     return -1;
 }
 
-void lihatKonser(Konser konser[], int jumlahKonser)
+void lihatKonser(Konser *konser, int jumlahKonser)
 {
     cout << "\n=================================== DAFTAR KONSER ===================================\n";
 
@@ -104,35 +104,35 @@ void lihatKonser(Konser konser[], int jumlahKonser)
     }
 }
 
-void tambahKonser(Konser konser[], int &jumlahKonser)
+void tambahKonser(Konser *konser, int *jumlahKonser)
 {
-    konser[jumlahKonser].id = jumlahKonser + 1;
+    konser[*jumlahKonser].id = *jumlahKonser + 1;
 
     cout << "Nama konser: ";
     cin.ignore();
-    getline(cin, konser[jumlahKonser].nama);
+    getline(cin, konser[*jumlahKonser].nama);
 
     cout << "Jenis: ";
-    getline(cin, konser[jumlahKonser].jenis);
+    getline(cin, konser[*jumlahKonser].jenis);
 
     cout << "Tanggal: ";
-    getline(cin, konser[jumlahKonser].tanggal);
+    getline(cin, konser[*jumlahKonser].tanggal);
 
     cout << "Tempat: ";
-    getline(cin, konser[jumlahKonser].tempat);
+    getline(cin, konser[*jumlahKonser].tempat);
 
     cout << "Harga: ";
-    cin >> konser[jumlahKonser].harga;
+    cin >> konser[*jumlahKonser].harga;
 
     cout << "Stok: ";
-    cin >> konser[jumlahKonser].stok;
+    cin >> konser[*jumlahKonser].stok;
 
-    jumlahKonser++;
+    (*jumlahKonser)++;
 
     cout << "Konser berhasil ditambahkan\n";
 }
 
-void ubahKonser(Konser konser[], int jumlahKonser)
+void ubahKonser(Konser *konser, int jumlahKonser)
 {
     int id;
 
@@ -169,23 +169,23 @@ void ubahKonser(Konser konser[], int jumlahKonser)
     }
 }
 
-void hapusKonser(Konser konser[], int &jumlahKonser)
+void hapusKonser(Konser *konser, int *jumlahKonser)
 {
     int id;
 
-    lihatKonser(konser, jumlahKonser);
+    lihatKonser(konser, *jumlahKonser);
 
     cout << "Masukkan ID konser: ";
     cin >> id;
 
-    for (int i = 0; i < jumlahKonser; i++)
+    for (int i = 0; i < *jumlahKonser; i++)
     {
         if (konser[i].id == id)
         {
-            for (int j = i; j < jumlahKonser - 1; j++)
+            for (int j = i; j < *jumlahKonser - 1; j++)
                 konser[j] = konser[j + 1];
 
-            jumlahKonser--;
+            (*jumlahKonser)--;
 
             cout << "Konser berhasil dihapus\n";
             break;
@@ -193,7 +193,7 @@ void hapusKonser(Konser konser[], int &jumlahKonser)
     }
 }
 
-void menuAdmin(Konser konser[], int &jumlahKonser)
+void menuAdmin(Konser *konser, int *jumlahKonser)
 {
     int menu;
 
@@ -214,10 +214,10 @@ void menuAdmin(Konser konser[], int &jumlahKonser)
             tambahKonser(konser, jumlahKonser);
             break;
         case 2:
-            lihatKonser(konser, jumlahKonser);
+            lihatKonser(konser, *jumlahKonser);
             break;
         case 3:
-            ubahKonser(konser, jumlahKonser);
+            ubahKonser(konser, *jumlahKonser);
             break;
         case 4:
             hapusKonser(konser, jumlahKonser);
@@ -227,7 +227,7 @@ void menuAdmin(Konser konser[], int &jumlahKonser)
     } while (menu != 5);
 }
 
-void lihatPesanan(Tiket tiket[], int jumlahTiket, string username)
+void lihatPesanan(Tiket *tiket, int jumlahTiket, string username)
 {
     cout << "\n===== PESANAN =====\n";
 
@@ -243,7 +243,7 @@ void lihatPesanan(Tiket tiket[], int jumlahTiket, string username)
     }
 }
 
-void beliTiket(User users[], Konser konser[], Tiket tiket[], int &jumlahTiket, int jumlahKonser, int indexUser)
+void beliTiket(User *users, Konser *konser, Tiket *tiket, int *jumlahTiket, int jumlahKonser, int indexUser)
 {
     lihatKonser(konser, jumlahKonser);
 
@@ -263,17 +263,17 @@ void beliTiket(User users[], Konser konser[], Tiket tiket[], int &jumlahTiket, i
                 cout << "Stok tidak cukup\n";
             else
             {
-                tiket[jumlahTiket].idTiket = jumlahTiket + 1;
-                tiket[jumlahTiket].pembeli = users[indexUser].username;
-                tiket[jumlahTiket].konser = konser[i];
-                tiket[jumlahTiket].jumlah = jumlah;
-                tiket[jumlahTiket].totalHarga = jumlah * konser[i].harga;
+                tiket[*jumlahTiket].idTiket = *jumlahTiket + 1;
+                tiket[*jumlahTiket].pembeli = users[indexUser].username;
+                tiket[*jumlahTiket].konser = konser[i];
+                tiket[*jumlahTiket].jumlah = jumlah;
+                tiket[*jumlahTiket].totalHarga = jumlah * konser[i].harga;
 
                 konser[i].stok -= jumlah;
 
                 tampilHarga(konser[i].harga, jumlah);
 
-                jumlahTiket++;
+                (*jumlahTiket)++;
 
                 cout << "Pembelian berhasil\n";
             }
@@ -281,7 +281,7 @@ void beliTiket(User users[], Konser konser[], Tiket tiket[], int &jumlahTiket, i
     }
 }
 
-void menuPelanggan(User users[], Konser konser[], Tiket tiket[], int &jumlahTiket, int jumlahKonser, int indexUser)
+void menuPelanggan(User *users, Konser *konser, Tiket *tiket, int *jumlahTiket, int jumlahKonser, int indexUser)
 {
     int menu;
 
@@ -301,7 +301,7 @@ void menuPelanggan(User users[], Konser konser[], Tiket tiket[], int &jumlahTike
             break;
 
         case 2:
-            lihatPesanan(tiket, jumlahTiket, users[indexUser].username);
+            lihatPesanan(tiket, *jumlahTiket, users[indexUser].username);
             break;
         }
 
@@ -338,7 +338,7 @@ int main()
         switch (menu)
         {
         case 1:
-            registerUser(users, jumlahUser);
+            registerUser(users, &jumlahUser);
             break;
 
         case 2:
@@ -350,9 +350,9 @@ int main()
                 percobaanLogin = 0;
 
                 if (users[indexUser].role == "admin")
-                    menuAdmin(konser, jumlahKonser);
+                    menuAdmin(konser, &jumlahKonser);
                 else
-                    menuPelanggan(users, konser, tiket, jumlahTiket, jumlahKonser, indexUser);
+                    menuPelanggan(users, konser, tiket, &jumlahTiket, jumlahKonser, indexUser);
             }
             else
             {
