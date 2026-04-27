@@ -326,6 +326,9 @@ void menuPelanggan(User *users, Konser *konser, Tiket *tiket, int *jumlahTiket, 
             beliTiket(users, konser, tiket, jumlahTiket, jumlahKonser, indexUser);
             break;
         case 2:
+            lihatPesanan(tiket, *jumlahTiket, users[indexUser].username);
+            break;
+        case 3:
         {
             string nama;
             cin.ignore();
@@ -334,7 +337,7 @@ void menuPelanggan(User *users, Konser *konser, Tiket *tiket, int *jumlahTiket, 
             cariNamaKonser(konser, jumlahKonser, nama);
             break;
         }
-        case 3:
+        case 4:
         {
             int id;
             cout << "ID: ";
@@ -347,7 +350,7 @@ void menuPelanggan(User *users, Konser *konser, Tiket *tiket, int *jumlahTiket, 
         }
         }
 
-    } while (menu != 4);
+    } while (menu != 5);
 }
 
 int main()
